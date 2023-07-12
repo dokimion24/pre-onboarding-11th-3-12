@@ -11,6 +11,23 @@ const style = css`
 
   body {
     box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    background-color: #c7d1db;
+    align-items: center;
+  }
+
+  button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  a {
+    color: #000;
+    text-decoration: none;
+    outline: none;
   }
 `;
 
