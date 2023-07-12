@@ -1,16 +1,10 @@
 /** @jsxImportSource @emotion/react */
 
-import React from 'react';
+import Txt from '../Txt';
 const Header = () => {
   return (
-    <div
-      css={{
-        width: '300px',
-        height: '80px',
-        backgroundColor: 'red',
-      }}
-    >
-      Headerx
+    <div>
+      <Txt typography="h2">Facebook / react</Txt>
     </div>
   );
 };
