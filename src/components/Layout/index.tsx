@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 
 import { Outlet } from 'react-router-dom';
-import Header from '../Header';
 
 const Layout = () => {
   return (
@@ -13,7 +12,6 @@ const Layout = () => {
         padding: '16px',
       }}
     >
-      <Header />
       <Outlet />
     </div>
   );
