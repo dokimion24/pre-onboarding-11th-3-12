@@ -6,8 +6,8 @@ const Layout = () => {
   return (
     <div
       css={{
-        maxWidth: '500px',
-        height: '100%',
+        width: '500px',
+        height: '100vh',
         backgroundColor: '#fff',
         padding: '16px',
       }}
