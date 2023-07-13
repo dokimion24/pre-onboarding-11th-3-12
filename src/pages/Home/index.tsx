@@ -1,51 +1,42 @@
+/** @jsxImportSource @emotion/react */
+
 import React, { useEffect, useState, useRef } from 'react';
-import IssueList from '../../components/IssueList';
 import {
   useIssuesDispatch,
   useIssuesState,
 } from '../../contexts/IssuesContext';
 import { getIssues } from '../../service/issue';
 import Header from '../../components/Header';
+import useInfinityScroll from '../../hooks/useInfinityScroll';
+import IssueItem from '../../components/IssueItem';
 
 const Home = () => {
   const state = useIssuesState();
   const dispatch = useIssuesDispatch();
-
   const [page, setPage] = useState(0);
 
-  console.log(state);
-  //@ts-ignore
   const { data: issues, loading, error } = state;
 
-  const obsRef = useRef(null);
+  console.log(state);
 
-  console.log(obsRef);
-  const preventRef = useRef(true); //옵저버 중복 실행 방지
-  const endRef = useRef(false); //모든 글 로드 확인
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(obsHandler, { threshold: 0.5 });
-    if (obsRef.current) observer.observe(obsRef.current);
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
+  const target = useRef(null);
+  console.log(target);
+  const { observe, unobserve } = useInfinityScroll(() => {
+    setPage(prev => prev + 1);
+  });
 
   console.log(page);
-
-  //@ts-ignore
-  const obsHandler = entries => {
-    const target = entries[0];
-    if (!endRef.current && target.isIntersecting && preventRef.current) {
-      //옵저버 중복 실행 방지
-      preventRef.current = false;
-      setPage(prev => prev + 1);
-    }
-  };
 
   useEffect(() => {
     getIssues(dispatch, page);
   }, [page, dispatch]);
+
+  useEffect(() => {
+    if (page < 100) observe(target.current);
+    if (page > 100) unobserve(target.current);
+  }, [issues, page]);
+
+  //@ts-ignore
 
   if (loading) return <div>로딩중..</div>;
   if (error) return <div>에러가 발생했습니다</div>;
@@ -53,8 +44,17 @@ const Home = () => {
   return (
     <>
       <Header />
-      <IssueList issues={issues} />
-      <div ref={obsRef} style={{ height: '10px' }} />
+      <div css={{ height: '100vh', overflow: 'scroll' }}>
+        <ul>
+          {issues?.map((issue: any, i: number) => (
+            <IssueItem key={i} issue={issue} />
+          ))}
+        </ul>
+        <div
+          ref={target}
+          css={{ backgroundColor: 'red', width: '100%', height: '100px' }}
+        />
+      </div>
     </>
   );
 };
