@@ -14,7 +14,7 @@ type Action =
 
 const initialState: State = {
   loading: false,
-  data: null,
+  data: [],
   error: null,
 };
 
@@ -28,7 +28,7 @@ const issuesReducer = (state: State, action: Action): State => {
     case 'GET_ISSUES_SUCCESS':
       return {
         loading: false,
-        data: action.data,
+        data: [...state.data, ...action.data],
         error: null,
       };
     case 'GET_ISSUES_ERROR':
