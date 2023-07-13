@@ -6,7 +6,7 @@ import { IssuesProvider } from './contexts/IssuesContext';
 function App() {
   return (
     <IssuesProvider>
-      <RouterProvider router={rootRouter} />;
+      <RouterProvider router={rootRouter} />
     </IssuesProvider>
   );
 }
